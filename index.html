@@ -1,0 +1,231 @@
+<html>
+	<head>
+		<title>kenotaph-daemon</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<!--<style>
+			body { font-size:84%; font-family:sans-serif; }
+			h1 { font-size:200%; margin-bottom:25px; }
+			h2 { font-size:140%; margin-bottom:5px; padding-bottom:5px; }
+			h3 { font-size:110%; margin-bottom:5px; padding-bottom:5px; }
+			a { text-decoration:none; color:#2D6FAC; }
+			a:hover { text-decoration:underline; }
+			p { text-align:justify; }
+			#menu { width:100%; margin:0 auto; margin-bottom:40px; }
+			#menu .menu_item {  }
+			#menu .delim { font-weight:bold; margin-left:5px; margin-right:5px; }
+			#content { width:70%; margin:0 auto; }
+			#content .content_section { margin-bottom:20px; }
+			#content pre { font-size:105%; font-family:Monospace; padding:10px; background-color:#EFEFEF; white-space: pre-wrap; white-space:-moz-pre-wrap; white-space:-pre-wrap; white-space:-o-pre-wrap; word-wrap:break-word; }
+			#content li { padding:5px; }
+			#content ul { list-style:square; }
+			.cmd {font-size:105%; background-color:#EFEFEF; font-family:Monospace; padding-left:4px; padding-right:4px; }
+		</style>-->
+
+		<script type="text/javascript">
+			var hist_entries = 4;
+
+			function show_history ()
+			{
+				var news_entries = document.getElementById ("news_section").getElementsByTagName ("p").length;
+
+				for ( i = hist_entries; i < news_entries; i++ ){
+					if ( ! document.getElementById ("news_section").getElementsByTagName ("p")[i] )
+						break;
+
+					document.getElementById ("news_section").getElementsByTagName ("p")[i].style.display = "block";
+				}
+			}
+
+			function hide_history ()
+			{
+				var news_entries = document.getElementById ("news_section").getElementsByTagName ("p").length;
+				var i = hist_entries;
+
+				for ( i = hist_entries; i < news_entries; i++ ){
+					if ( ! document.getElementById ("news_section").getElementsByTagName ("p")[i] )
+						break;
+
+					document.getElementById ("news_section").getElementsByTagName ("p")[i].style.display = "none";
+				}
+			}
+		</script>
+	</head>
+	
+	<body>
+		<div id="content">
+			<h1>kenotaph-daemon</h1>
+			
+			<div id="menu">
+				<span class="menu_item"> <a href="#news">News</a> </span>
+				<span class="delim">&nbsp;</span>
+				<span class="menu_item"> <a href="#description">Description</a> </span>
+				<span class="delim">&nbsp;</span>
+				<span class="menu_item"> <a href="#usage">Usage</a> </span>
+				<span class="delim">&nbsp;</span>
+				<span class="menu_item"> <a href="#configuration">Configuration</a> </span>
+				<span class="delim">&nbsp;</span>
+				<span class="menu_item"> <a href="#installation">Installation</a> </span>
+				<span class="delim">&nbsp;</span>
+				<span class="menu_item"> <a href="#download" style="font-weight:bold;">Download</a> </span>
+			</div>
+
+			<h2 id="news">News</h2>
+			<div id="news_section" class="content_section">
+				<p>
+					<strong>2016-02-24</strong> &#8212; Version <strong>1.0.0</strong> released.
+				</p>
+
+				<!--<div style="text-align:center;">
+					<a href="#" onclick="show_history (); this.style.display = 'none'; return false;">(show all)</a>
+				</div>-->
+			</div>
+			
+			<h2 id="description">Description</h2>
+			<div class="content_section">
+				<p> <em>kenotaph-daemon</em>  is  a  tool for detecting a presence of network devices through means of a packet capture. Both Wired and Wireless networks are supported, assuming appropriate hardware is available. Targeted device is identified by a user defined <em>Berkeley Packet Filter</em>, either by its IP address or Hardware  address,  however the use of <em>BPF</em> allows for higher complexity. A packet capture is done in promiscuous mode, and/or in monitor mode.</p>
+
+				<p> <em>kenotaph-daemon</em>  is designed to be a 'daemon' program that runs in the background. To communicate with other processes, a TCP/IP socket is opened on a defined port bound to a hostname. When a targeted device becomes present on a network, or becomes absent, a notification message is sent to all consumers connected to the socket.</p>
+
+				<p>A notification message is an <em>ASCII</em> formatted string that consists of three fields separated by a white-space character (' ', hex \x20).  The  first field  contains a name of the event, the second contains an ID, which corresponds to a name of a device rule found in a configuration file, and the third contains a name of a network interface. Whole message is terminated with a newline character ('\n', hex \x0A).</p>
+
+				<p>Event names are abbreviations of their meaning and are sent thus:</p>
+
+				<ul>
+					<li>Event <u>BEG</u> designates a beginning and is sent after the first packet matching a device's match pattern is captured.</li>
+
+					<li>Event <u>END</u> is sent after a device has not been seen, meaning no packets matching a device's match pattern were captured,  for  a  time  period  exceeding  a defined timeout.</li>
+
+					<li>Event <u>ERR</u> is sent if a network interface gets into faulty state, after that all subsequent triggers of <u>END</u> event are cancelled, unless <u>BEG</u> event is triggered again.</li>
+				</ul>
+
+				<p> <em>kenotaph-daemon</em> is free software licensed under <strong>GPLv3</strong>.
+			</div>
+
+			<h2 id="usage">Usage</h2>
+			<div class="content_section">
+				<pre>
+Usage: kenotaphd [OPTIONS] -t HOSTNAME:PORT &lt;config-file&gt;
+
+Options:
+  -4                            resolve hostname to IPv4 address
+  -6                            resolve hostname to IPv6 address
+  -t, --hostname=HOSTNAME:PORT  bind socket to hostname and port
+  -d, --daemon                  run as a daemon
+  -m, --accept-max=NUM          accept maximum of NUM concurrent client connections
+  -P, --pid-file=FILE           create a pid file FILE
+  -V, --verbose                 increase verbosity
+  -h, --help                    show usage information
+  -v, --version                 show version information</pre>
+			</div>
+
+			<h2 id="configuration">Configuration</h2>
+			<div class="content_section">
+
+			<pre>
+/*
+ * Example configuration file for kenotaph-daemon.
+ */
+
+/*
+ * Capture on Wireless interface in monitor mode.
+ */
+interface wlan0
+{
+	// Enable monitor mode, if supported. Monitor mode is disabled by default.
+	monitor_mode = true
+
+	// Enable promiscuous mode. Promiscuous mode is enabled by default.
+	promisc_mode = true
+
+	// Use default link_type, otherwise this value would override it.
+	//link_type = "EN10MB"
+
+	// This option is ignored by kenotaph-daemon but it allows external tools
+	// to get an information about a wireless channel on which we want to
+	// listen. This option only makes sense when monitor mode is enabled.
+	channel = 6
+
+	// Enable or disable this interface section. By setting this value to
+	// false, everything inside this section will be ignored.
+	enabled = true
+
+	device mydevice1
+	{
+		// Berkeley Packet Filter describing how to match packets belonging to
+		// a device.
+		match = "ether host aa:bb:cc:dd:ee:f1"
+
+		// Maximum time spent waiting for another matched packet. If this value
+		// is exceeded, device is pronounced absent.
+		timeout = 900
+	}
+
+	// ... define other devices
+
+	// ... or include them from elsewhere.
+	include ("externaldevice.conf")
+}
+
+/*
+ * Capture on Ethernet interface.
+ */
+interface eth0
+{
+	device officeprinter
+	{
+		match = "ip host hpprinter"
+		timeout = 3600
+	}
+
+	device homeserver
+	{
+		match = "ip host 192.168.1.52 or ip host 192.168.1.60"
+		timeout = 200
+	}
+}</pre>
+
+			</div>
+
+			<h2 id="installation">Installation</h2>
+			<div class="content_section">
+				<p>If <em>kenotaph-daemon</em> is not available in a repository of your favorite GNU/Linux distribution, you may
+				consider installing it from the source.</p>
+				
+				<h3>From the source:</h3>
+				
+				<ol>
+					<li>Download the source code.</li>
+					<li>Extract the content of the archive.</li>
+					<li>Change current directory to extracted directory.</li>
+					<li>Run <span class="cmd">make</span> to compile the source code.</li>
+					<li>Run <span class="cmd">make install</span> with root privileges to install the compiled binary.</span> </li>
+				</ol>
+
+				<h3>Dependencies:</h3>
+				
+				<ul>
+					<li>glibc &gt;= 2.0</li>
+					<li>libpcap &gt;= 1.0</li> 
+					<li>libconfuse</li>
+				</ul>
+			</div>	
+
+			<h2 id="download">Download</h2>
+			<div class="content_section">
+				<p>
+					<a href="https://github.com/antagon/kenotaph-daemon">Latest changes</a> and all <a href="https://github.com/antagon/kenotaph-daemon/releases">version releases</a> are available in <em>kenotaph-daemon</em> git repository</a>.
+				</p>
+				
+				<ul>
+					<li> <a href="files/kenotaph-daemon-1.0.0.tar.gz">kenotaph-daemon-1.0.0.tar.gz</a> <sup>[<a href="files/kenotaph-daemon-1.0.0.tar.gz.sig">signature</a>] [<a href="https://github.com/antagon/kenotaph-daemon/blob/1.0.0/Changelog">changelog</a>]</sup> </li>
+				</ul>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			hide_history ();
+		</script>
+	</body>
+</html>
