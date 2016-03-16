@@ -75,6 +75,10 @@
 			<h2 id="news">News</h2>
 			<div id="news_section" class="content_section">
 				<p>
+					<strong>2016-03-16</strong> &#8212; Version <strong>1.0.1</strong> released.
+				</p>
+
+				<p>
 					<strong>2016-02-24</strong> &#8212; Version <strong>1.0.0</strong> released.
 				</p>
 
@@ -89,7 +93,7 @@
 
 				<p> <em>kenotaph-daemon</em>  is designed to be a 'daemon' program that runs in the background. To communicate with other processes, a TCP/IP socket is opened on a defined port bound to a hostname. When a targeted device becomes present on a network, or becomes absent, a notification message is sent to all consumers connected to the socket.</p>
 
-				<p>A notification message is an <em>ASCII</em> formatted string that consists of three fields separated by a white-space character (' ', hex \x20).  The  first field  contains a name of the event, the second contains an ID, which corresponds to a name of a device rule found in a configuration file, and the third contains a name of a network interface. Whole message is terminated with a newline character ('\n', hex \x0A).</p>
+				<p>A notification message is an <em>ASCII</em> formatted string that consists of three fields separated by a white-space character (' ', hex \x20).  The  first field  contains a name of the event, the second contains an ID, which corresponds to a name of a device section found in a configuration file, and the third contains a name of a network interface. Whole message is terminated with a newline character ('\n', hex \x0A).</p>
 
 				<p>Event names are abbreviations of their meaning and are sent thus:</p>
 
@@ -98,7 +102,7 @@
 
 					<li>Event <u>END</u> is sent after a device has not been seen, meaning no packets matching a device's match pattern were captured,  for  a  time  period  exceeding  a defined timeout.</li>
 
-					<li>Event <u>ERR</u> is sent if a network interface gets into faulty state, after that all subsequent triggers of <u>END</u> event are cancelled, unless <u>BEG</u> event is triggered again.</li>
+					<li>Event <u>ERR</u> is sent for each device section, upon a network interface error, for which the event <u>BEG</u> was recently sent. After that all subsequent triggers of the event <u>END</u> are cancelled, unless the event <u>BEG</u> is triggered again.
 				</ul>
 
 				<p> <em>kenotaph-daemon</em> is free software licensed under <strong>GPLv3</strong>.
@@ -220,7 +224,7 @@ interface eth0
 				</p>
 				
 				<ul>
-					<li> <a href="files/kenotaph-daemon-1.0.0.tar.gz">kenotaph-daemon-1.0.0.tar.gz</a> <sup>[<a href="files/kenotaph-daemon-1.0.0.tar.gz.sig">signature</a>] [<a href="https://github.com/antagon/kenotaph-daemon/blob/1.0.0/ChangeLog">changelog</a>]</sup> </li>
+					<li> <a href="files/kenotaph-daemon-1.0.1.tar.gz">kenotaph-daemon-1.0.1.tar.gz</a> <sup>[<a href="files/kenotaph-daemon-1.0.1.tar.gz.sig">signature</a>] [<a href="https://github.com/antagon/kenotaph-daemon/blob/1.0.1/ChangeLog">changelog</a>]</sup> </li>
 				</ul>
 			</div>
 		</div>
