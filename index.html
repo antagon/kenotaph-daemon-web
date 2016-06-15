@@ -3,7 +3,7 @@
 		<title>kenotaph-daemon</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta name="description" content="Detect a presence of a network device.">
-		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<!--<style>
 			body { font-size:84%; font-family:sans-serif; }
@@ -75,6 +75,10 @@
 			<h2 id="news">News</h2>
 			<div id="news_section" class="content_section">
 				<p>
+					<strong>2016-06-16</strong> &#8212; Version <strong>1.0.2</strong> released.
+				</p>
+
+				<p>
 					<strong>2016-03-16</strong> &#8212; Version <strong>1.0.1</strong> released.
 				</p>
 
@@ -111,7 +115,7 @@
 			<h2 id="usage">Usage</h2>
 			<div class="content_section">
 				<pre>
-Usage: kenotaphd [OPTIONS] -t HOSTNAME:PORT &lt;config-file&gt;
+Usage: kenotaphd [OPTIONS] &lt;config-file&gt;
 
 Options:
   -4                            resolve hostname to IPv4 address
@@ -132,6 +136,21 @@ Options:
 /*
  * Example configuration file for kenotaph-daemon.
  */
+
+// Bind to address...
+hostname = "localhost"
+
+// ... on port.
+port = 8888
+
+// Resolve hostname to IPv6 address.
+ip_version = 6
+
+// Accept maximum number of concurrent connections.
+accept_max = 64
+
+// Create a pidfile.
+pidfile = "/run/kenotaphd.pid"
 
 /*
  * Capture on Wireless interface in monitor mode.
@@ -158,6 +177,9 @@ interface wlan0
 
 	device mydevice1
 	{
+		// Enable or disabled this device section.
+		enabled = true
+
 		// Berkeley Packet Filter describing how to match packets belonging to
 		// a device.
 		match = "ether host aa:bb:cc:dd:ee:f1"
@@ -167,7 +189,7 @@ interface wlan0
 		timeout = 900
 	}
 
-	// ... define other devices
+	// ... define other devices.
 
 	// ... or include them from elsewhere.
 	include ("externaldevice.conf")
@@ -224,7 +246,7 @@ interface eth0
 				</p>
 				
 				<ul>
-					<li> <a href="files/kenotaph-daemon-1.0.1.tar.gz">kenotaph-daemon-1.0.1.tar.gz</a> <sup>[<a href="files/kenotaph-daemon-1.0.1.tar.gz.sig">signature</a>] [<a href="https://github.com/antagon/kenotaph-daemon/blob/1.0.1/ChangeLog">changelog</a>]</sup> </li>
+					<li> <a href="files/kenotaph-daemon-1.0.2.tar.gz">kenotaph-daemon-1.0.2.tar.gz</a> <sup>[<a href="files/kenotaph-daemon-1.0.2.tar.gz.sig">signature</a>] [<a href="https://github.com/antagon/kenotaph-daemon/blob/1.0.2/ChangeLog">changelog</a>]</sup> </li>
 				</ul>
 			</div>
 		</div>
